@@ -11,3 +11,15 @@
 form input {
   padding: 0px 10px;
 }
+
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+  border-radius: 8px;
+}
