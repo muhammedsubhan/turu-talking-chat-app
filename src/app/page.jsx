@@ -27,12 +27,48 @@ const Home = () => {
       name: "haseeb",
       text: "hello bitches hehehh ",
     },
+    {
+      id: 2,
+      img: "/profile.jpg",
+      name: "hamza",
+      text: "hello bitches hehehh ",
+    },
+    {
+      id: 3,
+      img: "/profile.jpg",
+      name: "haseeb",
+      text: "hello bitches hehehh ",
+    },
+    {
+      id: 2,
+      img: "/profile.jpg",
+      name: "hamza",
+      text: "hello bitches hehehh ",
+    },
+    {
+      id: 3,
+      img: "/profile.jpg",
+      name: "haseeb",
+      text: "hello bitches hehehh ",
+    },
+    {
+      id: 2,
+      img: "/profile.jpg",
+      name: "hamza",
+      text: "hello bitches hehehh ",
+    },
+    {
+      id: 3,
+      img: "/profile.jpg",
+      name: "haseeb",
+      text: "hello bitches hehehh ",
+    },
   ];
 
   return (
     <>
       <div className="flex min-h-screen">
-        <div className="w-[100px]  flex flex-col border-r md:hidden bg-white">
+        <div className="w-[100px]  flex flex-col border-r border-gray md:hidden bg-white">
           <div className="p-2 flex-grow flex flex-col items-center gap-10  ">
             <div>
               <Image
@@ -46,85 +82,88 @@ const Home = () => {
             </div>
             <p
               title="Profile"
-              className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all"
+              className="text-2xl p-3  text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all"
             >
               <CgProfile />
             </p>
             <p
               title="Chats"
-              className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all "
+              className="text-2xl p-3 text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all "
             >
               <FaRegMessage />
             </p>
             <p
               title="Calls"
-              className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all "
+              className="text-2xl p-3 text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all "
             >
               <BiPhoneCall />
             </p>
             <p
               title="Settings"
-              className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all   "
+              className="text-2xl p-3 text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all "
             >
               <FiSettings />
             </p>
           </div>
           <div className="flex justify-center mb-10">
-            <p className="text-2xl text-gray-500">
+            <p className="text-2xl text-textcolor">
               <BsMoonStars />
             </p>
           </div>
         </div>
-        <div className="w-[500px] bg-gray-100 md:w-full relative">
+        <div className="w-[500px] bg-lightgray md:w-full relative ">
           <div>
-            <h1 className="px-4 py-2 text-xl font-medium">Chats</h1>
+            <h1 className="px-4 py-2 text-xl text-black font-medium">Chats</h1>
             <div className="px-5 py-2 mb-10">
-              <div className="flex items-center gap-2 bg-gray-200 p-3 rounded-md">
+              <div className="flex items-center gap-2 bg-gray p-3 rounded-md">
                 <CiSearch className="text-xl font-semibold text-gray-500" />
                 <input
                   type="text"
                   placeholder="Search User's"
-                  className="bg-gray-200 focus:outline-none w-full"
+                  className="bg-gray focus:outline-none w-full"
                 />
               </div>
             </div>
           </div>
 
-          <div className="overflow-y-auto max-h-[550px] scrollbar">
+          <div
+            className="overflow-y-auto max-h-[500px] scrollbar sm:max-h-[400px]"
+            style={{ marginBottom: "40px" }}
+          >
             {people.map((item) => {
               return (
                 <div
                   key={item.id}
-                  className="rounded-sm p-3 m-2 hover:bg-gray-200 transition-all"
+                  className="rounded-md p-3 m-2 hover:bg-gray transition-all"
                 >
                   <PeopleChats data={item} />
                 </div>
               );
             })}
           </div>
-          <div className="hidden md:flex absolute bottom-0  w-full h-16 ">
-            <div className="flex items-center border-2  w-full justify-around">
+          <div className="hidden md:flex absolute z-[999] bottom-0 bg-white w-full h-16 ">
+            <div className="flex items-center w-full justify-around">
               <p
                 title="Profile"
-                className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all"
+                className="text-2xl p-3  text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all"
               >
                 <CgProfile />
               </p>
               <p
                 title="Chats"
-                className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all "
+                className="text-2xl p-3  text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all"
               >
                 <FaRegMessage />
               </p>
               <p
                 title="Calls"
-                className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all "
+                className="text-2xl p-3  text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all"
               >
                 <BiPhoneCall />
               </p>
               <p
                 title="Settings"
-                className="text-2xl p-3  text-gray-500 hover:bg-blue-100 hover:text-blue-500 rounded-lg transition-all   "
+                className="text-2xl p-3  text-textcolor hover:bg-lightpurple hover:text-purple rounded-lg transition-all"
               >
                 <FiSettings />
               </p>

@@ -23,7 +23,17 @@ module.exports = {
       // => @media (max-width: 639px) { ... }
       xs: { max: "475px" },
     },
-    extend: {},
+    extend: {
+      colors: {
+        white: "#FFFFFF",
+        black: "#000000",
+        lightgray: "#F5F7FB",
+        gray: "#E6EBF5",
+        purple: "#7269EF",
+        lightpurple: "#F1F0FD",
+        textcolor: "#74788D",
+      },
+    },
   },
   plugins: [],
 };
