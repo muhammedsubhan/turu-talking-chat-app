@@ -127,8 +127,8 @@ const Home = () => {
           </div>
 
           <div
-            className="overflow-y-auto max-h-[500px] scrollbar sm:max-h-[400px]"
-            style={{ marginBottom: "40px" }}
+            className="overflow-y-auto max-h-[545px] scrollbar sm:max-h-[515px]"
+            style={{ marginBottom: "10px" }}
           >
             {people.map((item) => {
               return (
