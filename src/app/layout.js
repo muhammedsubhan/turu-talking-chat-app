@@ -1,5 +1,8 @@
+"use client";
 import "./globals.css";
 import { Poppins } from "next/font/google";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { DarkProvider } from "./context/darkmode/DarkMode";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,7 +18,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <DarkProvider>
+          <ChakraProvider>
+            <CSSReset />
+            {children}
+          </ChakraProvider>
+        </DarkProvider>
+      </body>
     </html>
   );
 }
