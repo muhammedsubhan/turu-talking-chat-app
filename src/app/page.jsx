@@ -4,12 +4,16 @@ import React, { useContext, useState } from "react";
 import { DarkContext } from "./context/darkmode/DarkMode";
 import Sidebar from "./components/sidebar/Sidebar";
 import Users from "./components/users/Users";
+import MessageComp from "./components/message/MessageComp";
+import { MessageContext } from "./context/MessageContext/MessageContext";
+
 const Home = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isChatsOpen, setIsChatsOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isCallsOpen, setIsCallsOpen] = useState(false);
   const { mode } = useContext(DarkContext);
+  const { userMessage } = useContext(MessageContext);
 
   const toggleChats = () => {
     setIsProfileOpen(false);
@@ -64,7 +68,23 @@ const Home = () => {
           />
         </div>
 
-        <div className="w-full  md:hidden">chats</div>
+        <div
+          className={`w-full md:hidden relative ${
+            mode === "dark" ? "bg-chatbgcolor" : "bg-white"
+          }`}
+        >
+          {userMessage ? (
+            <MessageComp />
+          ) : (
+            <div className="flex items-center justify-center  h-screen">
+              <div
+                className={`${mode === "dark" ? "text-white" : "text-black"}`}
+              >
+                no messages yet{" "}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

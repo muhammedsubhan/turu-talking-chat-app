@@ -1,13 +1,18 @@
+import { MessageContext } from "@/app/context/MessageContext/MessageContext";
 import { DarkContext } from "@/app/context/darkmode/DarkMode";
 import Image from "next/image";
 import React, { useContext } from "react";
 
 const PeopleChats = ({ data }) => {
   const { mode } = useContext(DarkContext);
+  const { setUserMessage } = useContext(MessageContext);
 
   return (
     <>
-      <div className="flex justify-between">
+      <div
+        className="flex justify-between"
+        onClick={() => setUserMessage(data)}
+      >
         <div className="flex items-center gap-3">
           <Image
             src={data.img}

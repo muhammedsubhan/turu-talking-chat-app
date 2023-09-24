@@ -24,17 +24,6 @@ form input {
   border-radius: 8px;
 }
 
-/* .active-circle::after {
-  content: "";
-  border-radius: 50%;
-  background-color: green;
-  border: 1px solid lightgray;
-  width: 8px;
-  height: 8px;
-  display: block;
-  margin: 0 auto;
-} */
-
 .active-circle::after {
   content: "";
   border-radius: 50%;
@@ -44,7 +33,6 @@ form input {
   height: 10px;
   display: block;
   margin: 0 auto;
-  position: relative;
 }
 
 .offline-circle::after {

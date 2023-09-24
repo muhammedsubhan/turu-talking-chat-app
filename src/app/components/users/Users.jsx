@@ -6,6 +6,7 @@ import Settings from "../settings/Settings";
 import UsersChat from "../usersChat/UsersChat";
 import HoriSidebar from "../horizontalSidebar/HoriSidebar";
 import Profile from "../profile/Profile";
+import { MessageContext } from "@/app/context/MessageContext/MessageContext";
 const Users = ({
   toggleChats,
   toggleCalls,
@@ -17,6 +18,7 @@ const Users = ({
   isCallsOpen,
 }) => {
   const { mode } = useContext(DarkContext);
+  const { isMessageOpen } = useContext(MessageContext);
 
   return (
     <>
@@ -33,18 +35,22 @@ const Users = ({
         )}
         {/* CHATS */}
         {isChatsOpen && <UsersChat />}
-        <div
-          className={`hidden md:flex fixed z-[999] bottom-0  w-full h-16 ${
-            mode === "dark" ? "bg-darksidebar" : "bg-white "
-          }`}
-        >
-          <HoriSidebar
-            toggleChats={toggleChats}
-            toggleCalls={toggleCalls}
-            toggleProfile={toggleProfile}
-            toggleSetting={toggleSetting}
-          />
-        </div>
+        {isMessageOpen ? (
+          ""
+        ) : (
+          <div
+            className={`hidden md:flex fixed z-[999] bottom-0  w-full h-16 ${
+              mode === "dark" ? "bg-darksidebar" : "bg-white "
+            }`}
+          >
+            <HoriSidebar
+              toggleChats={toggleChats}
+              toggleCalls={toggleCalls}
+              toggleProfile={toggleProfile}
+              toggleSetting={toggleSetting}
+            />
+          </div>
+        )}
       </div>
     </>
   );

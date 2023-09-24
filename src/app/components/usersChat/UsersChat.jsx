@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import PeopleChats from "../peoplesChat/PeopleChats";
 import { CiSearch } from "react-icons/ci";
 import { DarkContext } from "@/app/context/darkmode/DarkMode";
+import MessageComp from "../message/MessageComp";
+import { MessageContext } from "@/app/context/MessageContext/MessageContext";
 
 const UsersChat = () => {
   const { mode } = useContext(DarkContext);
+  const { setIsMessageOpen, isMessageOpen } = useContext(MessageContext);
 
   const people = [
     {
@@ -86,12 +89,24 @@ const UsersChat = () => {
               className={`rounded-md p-3 m-2 transition-all ${
                 mode === "dark" ? "hover:bg-darksidebar" : "hover:bg-gray "
               }`}
+              onClick={() => setIsMessageOpen(true)}
             >
               <PeopleChats data={item} />
             </div>
           );
         })}
       </div>
+      {isMessageOpen && window.innerWidth <= 640 && (
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 ">
+          <div
+            className={`relative max-w-screen-sm w-full h-full p-4  ${
+              mode === "dark" ? "bg-chatbgcolor" : "bg-white"
+            }`}
+          >
+            <MessageComp setIsMessageOpen={setIsMessageOpen} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

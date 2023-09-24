@@ -36,6 +36,7 @@ module.exports = {
         darksidebar: "#36404A",
         darkhover: "#3C445A",
         darkprofile: "#303841",
+        chatbgcolor: "#262E35"
       },
     },
   },
