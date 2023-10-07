@@ -28,7 +28,7 @@ const PeopleChats = ({ data }) => {
                 mode === "dark" ? "text-white" : " text-black"
               }`}
             >
-              {data.name}
+              {data.username}
             </h1>
             <small
               className={`font-normal text-sm  ${

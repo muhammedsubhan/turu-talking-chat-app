@@ -4,10 +4,21 @@ import { DarkContext } from "@/app/context/darkmode/DarkMode";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { BiPhoneCall } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { FaRegMessage } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
+import { TbLogout } from "react-icons/tb";
+import { AiFillLock } from "react-icons/ai";
 import { BsMoonStars, BsFillSunFill } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
+import { Spinner } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { LoginContext } from "@/app/context/loginContext/LoginContext";
 
 const Sidebar = ({
   toggleChats,
@@ -16,6 +27,7 @@ const Sidebar = ({
   toggleSetting,
 }) => {
   const { mode, toggle } = useContext(DarkContext);
+  const { currentUser, handelLogout } = useContext(LoginContext);
 
   return (
     <>
@@ -26,23 +38,38 @@ const Sidebar = ({
       >
         <div className="p-2 flex-grow flex flex-col items-center gap-10  ">
           <div>
-            {/* <Menu>
-                <MenuButton> */}
-            <Image
-              src="/profile.jpg"
-              width={70}
-              height={70}
-              alt="profile"
-              className="rounded-full  w-[50px] h-[49px] object-cover lg:w-[40px] lg:h-[39px]"
-            />
-            {/* </MenuButton>
-                <MenuList>
-                  <MenuItem>Profile</MenuItem>
-                  <MenuItem>Setting</MenuItem>
-                  <MenuItem>Lock Screen</MenuItem>
-                  <MenuItem>Log out</MenuItem>
-                </MenuList>
-              </Menu> */}
+            <Menu>
+              <MenuButton>
+                {currentUser.img ? (
+                  <div className="border-2 border-purple rounded-full">
+                    <Image
+                      src={currentUser.img || "/profileimg.png"}
+                      width={70}
+                      height={70}
+                      alt="my-profile"
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="rounded-full  w-[50px] h-[49px] object-cover lg:w-[40px] lg:h-[39px] "
+                    />
+                  </div>
+                ) : (
+                  <Spinner size="lg" className=" text-purple " />
+                )}
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={toggle}>
+                  Change Theme
+                  {mode === "light" ? <BsMoonStars /> : <BsFillSunFill />}
+                </MenuItem>
+                <MenuItem>
+                  Lock Screen <AiFillLock />
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={handelLogout}>
+                  Log out <TbLogout />
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </div>
           <p
             title="Profile"

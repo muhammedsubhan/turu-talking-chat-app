@@ -7,13 +7,26 @@ import { BiPhoneCall } from "react-icons/bi";
 import { FaRegMessage } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
 import { DarkContext } from "@/app/context/darkmode/DarkMode";
+import { LoginContext } from "@/app/context/loginContext/LoginContext";
+import { BsMoonStars, BsFillSunFill } from "react-icons/bs";
+import { TbLogout } from "react-icons/tb";
+import { AiFillLock } from "react-icons/ai";
+import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Spinner,
+} from "@chakra-ui/react";
 const HoriSidebar = ({
   toggleChats,
   toggleProfile,
   toggleCalls,
   toggleSetting,
 }) => {
-  const { mode } = useContext(DarkContext);
+  const { mode, toggle } = useContext(DarkContext);
+  const { currentUser, handelLogout } = useContext(LoginContext);
 
   return (
     <>
@@ -55,13 +68,38 @@ const HoriSidebar = ({
           <FiSettings />
         </p>
         <div>
-          <Image
-            src="/profile.jpg"
-            width={70}
-            height={70}
-            alt="profile"
-            className="rounded-full w-[50px] h-[49px] object-cover lg:w-[40px] lg:h-[39px]"
-          />
+          <Menu>
+            <MenuButton>
+              {currentUser.img ? (
+                <div className="border-2 border-purple rounded-full">
+                  <Image
+                    src={currentUser.img || "/profileimg.png"}
+                    width={70}
+                    height={70}
+                    alt="my-profile"
+                    objectFit="cover"
+                    objectPosition="center"
+                    className="rounded-full  w-[50px] h-[49px] object-cover lg:w-[40px] lg:h-[39px] "
+                  />
+                </div>
+              ) : (
+                <Spinner size="lg" className=" text-purple " />
+              )}
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={toggle}>
+                Change Theme
+                {mode === "light" ? <BsMoonStars /> : <BsFillSunFill />}
+              </MenuItem>
+              <MenuItem>
+                Lock Screen <AiFillLock />
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={handelLogout}>
+                Log out <TbLogout />
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </div>
       </div>
     </>
