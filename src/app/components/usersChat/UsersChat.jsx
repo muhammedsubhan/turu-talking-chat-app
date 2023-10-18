@@ -15,11 +15,10 @@ const UsersChat = () => {
   const [searchUser, setSearchUser] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedUserMessage, setSelectedUserMessage] = useState("");
+  const [chatId, setChatId] = useState("");
 
   const clearSearch = () => {
     setSearchUser("");
-    setSelectedUserMessage("");
   };
 
   useEffect(() => {
@@ -49,6 +48,12 @@ const UsersChat = () => {
     getSearchUser();
   }, [searchUser]);
 
+  useEffect(() => {
+    if (chatId) {
+      fetchMessages();
+    }
+  }, [chatId]);
+
   const people = [
     {
       id: 1,
@@ -58,15 +63,40 @@ const UsersChat = () => {
     },
   ];
 
-  const handleSearchResultClick = (message) => {
+  const handleSearchResultClick = async (id) => {
+    const createChat = await fetch("http://localhost:8000/createchat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: id }),
+      credentials: "include",
+    });
+
+    const res = await createChat.json();
+
     setSearchUser("");
-    setSelectedUserMessage(message);
-    setUserMessage(message);
+    localStorage.setItem("chatId", res._id);
+    setChatId(localStorage.getItem("chatId"));
+
+    setUserMessage(res.users[1]);
     setIsMessageOpen(true);
   };
 
-  console.log(selectedUserMessage);
-
+  const fetchMessages = async () => {
+    try {
+      const data = await fetch(`http://localhost:8000/allchats/${chatId}`, {
+        credentials: "include", // Include credentials here
+      });
+      if (data.status === 404) {
+        throw new Error("Resource not found");
+      }
+      const res = await data.json();
+      console.log("All messages response", res);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
   return (
     <div>
       <div>
@@ -119,7 +149,7 @@ const UsersChat = () => {
                         ? "hover:bg-darksidebar bg-chatbgcolor"
                         : "hover:bg-gray "
                     }`}
-                    onClick={() => handleSearchResultClick(item)}
+                    onClick={() => handleSearchResultClick(item._id)}
                   >
                     <div className="flex gap-5 items-center ">
                       <div className="border-2 border-purple rounded-full">
@@ -173,7 +203,10 @@ const UsersChat = () => {
               mode === "dark" ? "bg-chatbgcolor" : "bg-white"
             }`}
           >
-            <MessageComp setIsMessageOpen={setIsMessageOpen} />
+            <MessageComp
+              setIsMessageOpen={setIsMessageOpen}
+              fetchMessages={fetchMessages}
+            />
           </div>
         </div>
       )}

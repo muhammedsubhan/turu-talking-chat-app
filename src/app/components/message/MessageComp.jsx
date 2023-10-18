@@ -14,10 +14,12 @@ import { Spinner } from "@chakra-ui/react";
 
 const MessageComp = ({ setIsMessageOpen }) => {
   const [searchToggle, setSearchToggle] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // State for loading spinner
+  const [isLoading, setIsLoading] = useState(true);
   const { mode } = useContext(DarkContext);
   const { userMessage } = useContext(MessageContext);
   const { currentUser } = useContext(LoginContext);
+  const [message, setMessage] = useState("");
+  const [chatId, setChatId] = useState("");
 
   const convo = [
     {
@@ -45,8 +47,47 @@ const MessageComp = ({ setIsMessageOpen }) => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 5000);
   }, []);
+
+  
+  const handleSendMessage = async () => {
+    setChatId(localStorage.getItem("chatId")); // Set chatId from your source.
+
+    try {
+      const data = await fetch("http://localhost:8000/sendmessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: message, chatId: chatId }),
+        credentials: "include",
+      });
+      const res = await data.json();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchMessages = async () => {
+  //     try {
+  //       const data = await fetch(`http://localhost:8000/allchats/${chatId}`);
+  //       if (data.status === 404) {
+  //         throw new Error("Resource not found");
+  //       }
+  //       const res = await data.json();
+  //       console.log("All messages response", res);
+  //     } catch (error) {
+  //       console.error("Error fetching messages:", error);
+  //     }
+  //   };
+
+ 
+  //     fetchMessages();
+   
+  // }, [chatId]);
 
   return (
     <>
@@ -127,7 +168,10 @@ const MessageComp = ({ setIsMessageOpen }) => {
           <div className="overflow-y-auto max-h-[550px] scrollbar sm:max-h-[460px]">
             {convo.map((msg) => {
               return (
-                <div key={msg.id} className="flex items-end gap-3 mb-4 text-white p-5">
+                <div
+                  key={msg.id}
+                  className="flex items-end gap-3 mb-4 text-white p-5"
+                >
                   <div>
                     <Image
                       src={userMessage.img}
@@ -214,6 +258,7 @@ const MessageComp = ({ setIsMessageOpen }) => {
                 <input
                   type="text"
                   placeholder="Enter Message..."
+                  onChange={(e) => setMessage(e.target.value)}
                   className={`focus:outline-none w-full py-2 px-3 rounded-lg ${
                     mode === "dark"
                       ? "bg-darksidebar text-white"
@@ -228,7 +273,10 @@ const MessageComp = ({ setIsMessageOpen }) => {
                 <button className="text-2xl text-purple font-bold sm:text-base">
                   <HiOutlinePhoto />
                 </button>
-                <button className="px-3 py-2 sm:px-2 sm:py-1 text-xl rounded-lg bg-purple text-white sm:text-base">
+                <button
+                  onClick={handleSendMessage}
+                  className="px-3 py-2 sm:px-2 sm:py-1 text-xl rounded-lg bg-purple text-white sm:text-base"
+                >
                   <BiSolidSend />
                 </button>
               </div>
