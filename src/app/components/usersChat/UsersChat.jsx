@@ -16,6 +16,7 @@ const UsersChat = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chatId, setChatId] = useState("");
+  const [allMessages, setAllMessages] = useState([]);
 
   const clearSearch = () => {
     setSearchUser("");
@@ -92,7 +93,8 @@ const UsersChat = () => {
         throw new Error("Resource not found");
       }
       const res = await data.json();
-      console.log("All messages response", res);
+      setAllMessages(res);
+      console.log(res);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -205,7 +207,7 @@ const UsersChat = () => {
           >
             <MessageComp
               setIsMessageOpen={setIsMessageOpen}
-              fetchMessages={fetchMessages}
+              allMessages={allMessages}
             />
           </div>
         </div>

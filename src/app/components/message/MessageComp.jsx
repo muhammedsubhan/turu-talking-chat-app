@@ -12,13 +12,14 @@ import { MessageContext } from "@/app/context/MessageContext/MessageContext";
 import { LoginContext } from "@/app/context/loginContext/LoginContext";
 import { Spinner } from "@chakra-ui/react";
 
-const MessageComp = ({ setIsMessageOpen }) => {
+const MessageComp = ({ setIsMessageOpen, allMessages }) => {
   const [searchToggle, setSearchToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { mode } = useContext(DarkContext);
   const { userMessage } = useContext(MessageContext);
   const { currentUser } = useContext(LoginContext);
   const [message, setMessage] = useState("");
+  // const [senderText, setSenderText] = useState({});
   const [chatId, setChatId] = useState("");
 
   const convo = [
@@ -50,7 +51,6 @@ const MessageComp = ({ setIsMessageOpen }) => {
     }, 5000);
   }, []);
 
-  
   const handleSendMessage = async () => {
     setChatId(localStorage.getItem("chatId")); // Set chatId from your source.
 
@@ -65,29 +65,11 @@ const MessageComp = ({ setIsMessageOpen }) => {
       });
       const res = await data.json();
       console.log(res);
+      // setSenderText(res);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     try {
-  //       const data = await fetch(`http://localhost:8000/allchats/${chatId}`);
-  //       if (data.status === 404) {
-  //         throw new Error("Resource not found");
-  //       }
-  //       const res = await data.json();
-  //       console.log("All messages response", res);
-  //     } catch (error) {
-  //       console.error("Error fetching messages:", error);
-  //     }
-  //   };
-
- 
-  //     fetchMessages();
-   
-  // }, [chatId]);
 
   return (
     <>
@@ -164,81 +146,78 @@ const MessageComp = ({ setIsMessageOpen }) => {
                 : "text-textcolor opacity-90"
             }`}
           />
-
+          {/* receiver */}
           <div className="overflow-y-auto max-h-[550px] scrollbar sm:max-h-[460px]">
             {convo.map((msg) => {
               return (
-                <div
-                  key={msg.id}
-                  className="flex items-end gap-3 mb-4 text-white p-5"
-                >
-                  <div>
-                    <Image
-                      src={userMessage.img}
-                      width={40}
-                      height={40}
-                      alt="sender-profile"
-                      className="rounded-full max-w-[40px] h-[39px] object-cover lg:w-[40px] lg:h-[39px]"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="bg-purple py-2 px-4 rounded-lg">
-                      <p className="flex flex-wrap">{msg.receive}</p>
-                      <small className="flex items-center justify-end mt-1 gap-1">
-                        <BiTime /> <span>10:00</span>
+                <div key={msg.id} className="flex flex-col ">
+                  <div className="flex items-end gap-3 mb-4 text-white p-5">
+                    <div>
+                      <Image
+                        src={userMessage.img}
+                        width={40}
+                        height={40}
+                        alt="sender-profile"
+                        className="rounded-full max-w-[40px] h-[39px] object-cover lg:w-[40px] lg:h-[39px]"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="bg-purple py-2 px-4 rounded-lg">
+                        <p className="flex flex-wrap">{msg.receive}</p>
+                        <small className="flex items-center justify-end mt-1 gap-1">
+                          <BiTime /> <span>10:00</span>
+                        </small>
+                      </div>
+                      <small
+                        className={`text-xs font-normal ${
+                          mode === "dark" ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {userMessage.username}
                       </small>
                     </div>
-                    <small
-                      className={`text-xs font-normal ${
-                        mode === "dark" ? "text-white" : "text-black"
-                      }`}
-                    >
-                      {userMessage.username}
-                    </small>
+                  </div>
+                  <div className="flex items-end gap-3 flex-row-reverse text-white p-5">
+                    <div>
+                      <Image
+                        src={currentUser.img}
+                        width={40}
+                        height={40}
+                        alt="myprofile"
+                        className="rounded-full max-w-[40px] h-[39px] object-cover lg:w-[40px] lg:h-[39px]"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div
+                        className={`py-2 px-4 rounded-lg ${
+                          mode === "dark"
+                            ? "bg-darksidebar text-white"
+                            : "bg-gray text-black"
+                        }`}
+                      >
+                        <p className="flex flex-wrap">{msg.send}</p>
+                        <small className="flex items-center mt-1 gap-1">
+                          <BiTime /> <span>10:00</span>
+                        </small>
+                      </div>
+                      <small
+                        className={`text-xs font-normal flex flex-row-reverse ${
+                          mode === "dark" ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {currentUser.username}
+                      </small>
+                    </div>
                   </div>
                 </div>
               );
             })}
-
-            {convo.map((msg) => {
+            {/* sender */}
+            {/* {convo.map((msg) => {
               return (
-                <div
-                  key={msg.id}
-                  className="flex items-end gap-3 flex-row-reverse text-white p-5"
-                >
-                  <div>
-                    <Image
-                      src={currentUser.img}
-                      width={40}
-                      height={40}
-                      alt="myprofile"
-                      className="rounded-full max-w-[40px] h-[39px] object-cover lg:w-[40px] lg:h-[39px]"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div
-                      className={`py-2 px-4 rounded-lg ${
-                        mode === "dark"
-                          ? "bg-darksidebar text-white"
-                          : "bg-gray text-black"
-                      }`}
-                    >
-                      <p className="flex flex-wrap">{msg.send}</p>
-                      <small className="flex items-center mt-1 gap-1">
-                        <BiTime /> <span>10:00</span>
-                      </small>
-                    </div>
-                    <small
-                      className={`text-xs font-normal flex flex-row-reverse ${
-                        mode === "dark" ? "text-white" : "text-black"
-                      }`}
-                    >
-                      {currentUser.username}
-                    </small>
-                  </div>
-                </div>
+               
               );
-            })}
+            })} */}
           </div>
 
           <div
